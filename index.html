@@ -1,0 +1,540 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	<title>贪吃蛇</title>
+</head>
+<style>
+body{
+	font-family: "微软雅黑";
+}
+ul,li{
+	list-style: none;
+	padding: 0;
+}
+	#game-before{
+		width: 800px;
+		height: 600px;
+		background-image: url(img/before.jpg);
+		background-size: 100%;
+		margin: 0 auto;
+		margin-top: 30px;
+		overflow: hidden;
+		position: relative;
+		/*display: none;*/
+	}
+	.start{
+		width: 155px;
+		height: 50px;
+		background: pink;
+		position: absolute;
+		top: 215px;
+		left: 180px;
+		opacity: 0;
+	}
+	#game{
+		width: 900px;
+		display: none;
+		margin: 0 auto;
+	}
+	.left{
+		width: 190px;
+		height: 540px;
+		padding: 30px 30px;
+		background: #86CBF5;
+
+		float: left;
+		display: inline-block;
+		margin: 0 10px;
+		cursor: pointer;
+	}
+	.nandu{
+		margin: 0;
+	}
+	.left .chose{
+		width: 79%;
+		height: 50px;
+		/*padding: 10px 20px;*/
+		text-align: center;
+		line-height: 20px;
+		font-size: 18px;
+		color: #fff;
+		margin: 0 auto;
+		/*background: #E3950D;*/
+		margin-bottom: 15px;
+	}
+	.left .easy{
+		background-image: url(img/easy.png);
+	}
+	.left .medium{
+		background-image: url(img/medium.png);
+	}
+	.left .hard{
+		background-image: url(img/hard.png);
+	}
+	#sence{
+		width: 600px;
+		height: 600px;
+		display: inline-block;
+		margin: auto;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		right: 0;
+	}
+	.block{
+		background: #03BC03;
+		width: 29px;
+		height: 29px;
+		margin: 0 1px 1px 0;
+		float: left;
+	}
+	.shiwu{
+		background-image: url(img/shiwu.png);
+		background-size: 100%;
+	}
+	.shiwu1{
+		background-image: url(img/shiwu1.png);
+	}
+	.she{
+		background-image: url(img/green.png);
+		background-size: 100%;
+	}
+	input{
+		outline: none;
+		border: none;
+	}
+	.row{
+		width: 100%;
+		height: 30px;
+		margin-bottom: 20px;
+		background: #86CBF5;
+		border-bottom: 1px solid #fff;
+		color: #000;
+	}
+	.caozuo-t{
+		width: 116%;
+		height: 30px;
+		line-height: 30px;
+		padding-left: 30px;
+		margin: 0 -30px 0 -30px;
+		background: #B9DEF2;
+	}
+	.caozuo{
+		width: 100%;
+		/*margin: 10px -30px;*/
+		padding-left: 10px;
+		height: 30px;
+		line-height: 30px;
+		color: #fff;
+		margin-top: 10px;
+	}
+	.grade-box{
+		width: 80%;
+		height: 120px;
+		margin: 0 auto;
+		background: #B9DEF2;
+		border-radius: 20%;
+		padding: 10px;
+	}
+	.grade-box h1{
+		font-size: 20px;
+		text-align: center;
+		color: #CE8300;
+		font-weight: normal;
+		margin: 0;
+	}
+	.grade-box h2{
+		text-align: center;
+	}
+	/**/
+	#gameover{
+		width: 400px;
+		height: 400px;
+		background-image: url(img/gameover.png);
+		background-size: 100%;
+		margin: auto;
+		position: absolute;
+		top: 120px;
+		left: 0;
+		right: 0;
+		display: none;
+	}
+	#gameover .stars{
+		line-height:90px;
+		text-align: center;
+		font-size: 24px;
+		width: 280px;
+		height: 90px;
+		margin: auto;
+		position: relative;;
+		top: 95px;
+		left: 0;
+		right: 0;
+		z-index: 10;
+		/*background: pink;*/
+	}
+	#gameover .stars .star{
+		display: block;
+		position: absolute;
+		margin: auto;
+		display: none;
+	}
+	.star1{
+		width: 70px;
+		height: 70px;
+		background-image: url(img/star1.png);
+		left: 0;
+		bottom: 0;
+	}
+	.star2{
+		width: 90px;
+		height: 83px;
+		background-image: url(img/star2.png);
+		left: 0;
+		right: 0;
+	}
+	.star3{
+		width: 70px;
+		height: 70px;
+		background-image: url(img/star3.png);
+		right: 0;
+		bottom: 0;
+	}
+	#gameover span{
+		display: block;
+		font-weight: normal;
+		font-size: 25px;
+		margin-top: 125px;
+		margin-left: 230px;
+	}
+	#gameover span strong{
+		display: block;
+		margin-top: 7px;
+		color: #fff;
+		font-size: 25px;
+		font-weight: bold;
+		-webkit-text-stroke: 1px #796441;
+	}
+	.mengshe{
+		background-size: 100%;
+		background-image: url(img/lv蛇.png);
+	}
+	#game-before .mengshe{
+		width: 75px;
+		height: 40px;
+		position: absolute;
+		top: 220px;
+		left: 70px;
+	}
+	#gameover .mengshe{
+		width: 75px;
+		height: 40px;
+		position: absolute;
+		left: 40px;
+		top: 305px;
+	}
+	#gameover .mengshe.fen,#game-before .mengshe.fen{
+		background-image: url(img/粉蛇.png);
+	}
+	#gameover .mengshe.huang,#game-before .mengshe.huang{
+		background-image: url(img/黄蛇.png);
+	}
+	#gameover .mengshe.lan,#game-before .mengshe.lan{
+		background-image: url(img/蓝蛇.png);
+	}
+	#gameover .mengshe.lv,#game-before .mengshe.lv{
+		background-image: url(img/lv蛇.png);
+	}
+	.juesexuanze{
+		width: 500px;
+		height: 307px;
+		background-image: url(img/juesexuanze.png);
+		background-size: 100%;
+		margin: 0 auto;
+		margin-top: 30px;
+		position: relative;
+		overflow: hidden;
+	}
+	.name-box{
+		width: 315px;
+		height: 65px;
+		padding: 5px 15px;
+		margin: 0 auto;
+		margin-top: 110px;
+		background: pink;
+		opacity: 0;
+	}
+	.name-box ol{
+		width: 56px;
+		height: 65px;
+		margin-right: 29px;
+		padding: 0;
+		float: left;
+	}
+	.name-box ol:last-child{
+		margin: 0;
+	}
+	.xian{
+		width: 300px;
+		height: 114px;
+		background-image: url(img/线.png);
+		background-size: 100%;
+		position: absolute;
+		top: 150px;
+		left: 250px;
+		/*margin-top: -80px;*/
+	}
+</style>
+<body>
+	<div id="game">
+		<div class="left">
+			<input class="row" placeholder="请输入5-40的数字">
+			<ul class="nandu">
+				<li class="chose easy" data-role="15"></li>
+				<li class="chose medium" data-role="20"></li>
+				<li class="chose hard" data-role="30"></li>
+			</ul>
+			<ul>
+				<li class="caozuo-t">Active</li>
+				<li class="caozuo" data-ctrl="start">Start</li>
+				<li class="caozuo" data-ctrl="pause">Pause</li>
+				<li class="caozuo" data-ctrl="restart">Restart</li>
+			</ul>
+			<div class="grade-box">
+				<h1>Grade</h1>
+				<h2>0</h2>
+			</div>
+		</div>
+		<div id="sence"></div>
+	</div>
+	<!-- <div id="zhezhao"></div> -->
+	<div id="game-before">
+		 <li class="xian"></li>
+		<ul class="juesexuanze">
+		    <li class="name-box">
+			   <ol class="fen" id="pink"></ol>
+			   <ol class="huang" id="yellow"></ol>
+			   <ol class="lan" id="blue"></ol>
+			   <ol class="lv" id="green"></ol>
+		    </li>
+		    <li class="start"></li>
+		    <li class="mengshe"></li>
+	   </ul>
+	</div>
+	<div id="gameover">
+		<ul class="stars">
+			<li class="star star1"></li>
+			<li class="star star2"></li>
+			<li class="star star3"></li>
+		</ul>
+		<span>
+			<strong>0</strong>
+			<strong>3456</strong>
+		</span>
+		<div class="mengshe"></div>
+	</div>
+	<script src="js/jquery-1.12.0.js"></script>
+	<script>
+	  $(function(){
+	  	//全局变量
+	  	var row;
+	  	var snake=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+	  	var dictSnake={'0-0':true,'0-1':true,'0-2':true}
+	  	var food=[];
+	  	var timeId;
+	  	var fangxiang=39;
+	  	var grade=0;
+	  	var oldhead;
+	  	var count=3;
+
+	  	$('.juesexuanze').animate({marginTop:200},500)
+	  	var xuanjuese=function(){
+				var cName=$(this).attr('class');
+				// var cId=$(this).attr('id');
+				$('.mengshe').attr('class','mengshe '+cName);
+	  		// $('.she').css('backgroundImage','url(img/'+cId+'.png)')
+	  	}
+	  	$('.name-box ol').on('click',xuanjuese)
+	  	//公用函数
+	  	var xy2id=function(x,y){
+	  		return x+'-'+y;
+	  	}
+
+	  	//画场景
+	  	var render=function(){
+	  		row=row||20;
+	  		var i=0,j=0,
+	  		sence=$('#sence'),
+	  		wh=Math.floor(600/row);
+	  		sence.empty();
+	  		for(;i<row;i++){
+	  			for(j=0;j<row;j++){
+	  				$('<div>').addClass('block')
+	  				.attr('id',xy2id(i,j))
+	  				.width(wh-1).height(wh-1)
+	  				.appendTo(sence);
+	  			}
+	  		}
+	  		sence.width(wh*row).height(wh*row);
+	  	}
+	  	render();
+
+
+	  	//画蛇
+	  	var snakeRender=function(){
+	  		snake.forEach(function(v){
+	  		  $('#'+xy2id(v.x,v.y))
+	  		  .addClass('she');
+	  	    })
+	  	}
+	  	snakeRender();
+
+	  	//画食物
+	  	var fangshiwu=function(){
+	  		do{
+	  			var _x=Math.floor(Math.random()*row);
+	  		    var _y=Math.floor(Math.random()*row);
+	  		    // console.log(_x,_y)
+	  		    $('#'+xy2id(_x,_y))
+	  		    .addClass('shiwu');
+	  		    return{x:_x,y:_y};
+	  		}while(dictSnake[x+'-'+y])
+	  	}
+	  	food=fangshiwu();
+
+
+        //开始游戏
+	  	var startGame=function(){
+	  		clearInterval(timeId);
+	  		timeId=setInterval(move,200)
+	  		// return;
+	  	}
+	  	//暂停游戏
+	  	var pauseGame=function(){
+	  		clearInterval(timeId);
+	  	}
+	  	//重新开始游戏
+	  	var restart=function(){
+	  		pauseGame()
+	  		snake=[{x:0,y:0},{x:0,y:1},{x:0,y:2}];
+	  	    shiwu=null;
+	  	    timeId=null;
+	  	    fangxiang=39;
+	  	    render();
+	  	    snakeRender();
+	  	    food=fangshiwu()
+	  	    startGame()
+	  	}
+
+	  	$('.start').on('click',function(){
+	  		$('#game').css('display','block')
+	  		$(this).closest('div').css('display','none')
+	  	})
+	  	//点击事件
+        $('ul li').on('click',function(){
+        	// $('li.active').removeClass('active')
+        	// $(this).addClass('active');
+        	if($(this).attr('data-role')){//切换sence操作
+        		row=Number($(this).attr('data-role'));
+        	    render();
+        	    snakeRender()
+        	    food=fangshiwu()
+        	}else if($(this).attr('data-ctrl')){//开始暂停
+        		if($(this).attr('data-ctrl')=='start'){
+        			startGame()
+        			$('ul li[data-role]').off();
+        		}else if($(this).attr('data-ctrl')=='pause'){
+        			pauseGame()
+        		}else if($(this).attr('data-ctrl')=='restart'){
+        			restart()
+        		}
+        	}
+        })
+        //键盘事件
+	  	$('.row').on('keydown',function(e){
+	  		row=$(this).val();
+	  		if(e.keyCode===13){
+	  			if(isNaN(Number(row))){
+	  				alert('请输入数字！')
+	  			}else if(row<5||row>40){
+	  				alert('请输入5-40的数字！')
+	  			}else{
+	  				render()
+	  				snakeRender()
+	  			}
+	  		}
+	  	})
+
+			var grades=localStorage.grades?JSON.parse(localStorage.grades):[];
+	  	var move=function(){
+	  		oldhead=snake[snake.length-1];
+	  		var newhead;
+	  		if(fangxiang==39){
+	  			newhead={x:oldhead.x,y:oldhead.y+1}
+	  		}else if(fangxiang==37){
+	  			newhead={x:oldhead.x,y:oldhead.y-1}
+	  		}else if(fangxiang==38){
+	  			newhead={x:oldhead.x-1,y:oldhead.y}
+
+	  		}else if(fangxiang==40){
+	  			newhead={x:oldhead.x+1,y:oldhead.y}
+	  		}
+	  		$('#'+xy2id(newhead.x,newhead.y)).addClass('she')
+	  		snake.push(newhead)
+
+	  		//吃到食物
+	  		if(newhead.x===food.x&&newhead.y===food.y){
+	  		    $('#'+xy2id(food.x,food.y))
+	  		    .addClass('she')
+	  		    .removeClass('shiwu');
+	  		    dictSnake[xy2id(newhead.x,newhead.y)]=true;
+	  		    food=fangshiwu()
+	  		    grade+=1;
+	  		    $('.grade-box').find('h2').text(grade)
+	  		    $('#gameover strong:eq(0)').text(grade)
+	  		}else{
+	  		   var weiba=snake.shift();
+	  		   $('#'+xy2id(weiba.x,weiba.y))
+	  		   .removeClass('she');
+	  		    dictSnake[xy2id(newhead.x,newhead.y)]=false;
+	  		}
+	  		//撞墙
+	  		if(newhead.x<0||newhead.x>row-1||newhead.y<0||newhead.y>row-1){
+	  			pauseGame();
+	  			$('#gameover').css('display','block');
+					if(grade>=10){
+						$('.star').fadeIn(500)
+					}else if(grade>=6){
+						$('.star1').fadeIn(500).delay(500).next().fadeIn(500);
+					}else if(grade>=3){
+						$('.star1').fadeIn(500);
+					}else if(grade<3){
+						$('.stars').text('失败了(＞﹏＜)！')
+					}
+					grades.push(grade);
+					localStorage.grades=JSON.stringify(grades);
+					console.log(grades);
+					$('#gameover strong:eq(1)').text(Math.max.apply(Math,grades));
+	  			return;
+	  		}
+	  	}
+
+	  	//改变方向
+	  	$(document).on('keydown',function(e){
+				console.log(e.keyCode,fangxiang)
+	  		if(Math.abs(e.keyCode-fangxiang)===2){
+	  			return;
+	  		}
+				fangxiang=e.keyCode;
+
+	  		if(e.keyCode!==37||e.keyCode!==38||e.keyCode!==39||e.keyCode!==40){
+	  			return;
+	  		}
+	  	})
+
+	  })
+
+	</script>
+</body>
+</html>
